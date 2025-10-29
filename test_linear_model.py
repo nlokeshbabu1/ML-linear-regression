@@ -4,43 +4,43 @@ from sklearn.linear_model import LinearRegression
 def test_linear_model():
     """
     Test script to validate the linear regression concept
-    with a simplified version of the student mark model
+    with a simplified version of the house price model
     """
-    print("Testing Linear Model for Student Marks Prediction")
+    print("Testing Linear Model for House Price Prediction")
     print("="*50)
     
-    # Sample data: hours studied and corresponding marks
-    # Format: [hours] -> [marks]
-    hours_studied = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).reshape(-1, 1)
-    marks = np.array([25, 30, 35, 40, 50, 55, 60, 70, 75, 80])
+    # Sample data: house sizes and corresponding prices
+    # Format: [size] -> [price]
+    house_sizes = np.array([800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600]).reshape(-1, 1)
+    prices = np.array([120, 150, 180, 210, 240, 270, 300, 330, 360, 390])
     
     print("Sample data:")
-    print("Hours -> Marks")
-    for h, m in zip(hours_studied.flatten(), marks):
-        print(f"{h} -> {m}")
+    print("Size (sq ft) -> Price (thousands $)")
+    for s, p in zip(house_sizes.flatten(), prices):
+        print(f"{s} -> {p}")
     
     # Create and train the model
     model = LinearRegression()
-    model.fit(hours_studied, marks)
+    model.fit(house_sizes, prices)
     
     print(f"\nTrained model:")
-    print(f"Slope: {model.coef_[0]:.2f}")
+    print(f"Slope: {model.coef_[0]:.4f}")
     print(f"Intercept: {model.intercept_:.2f}")
-    print(f"Equation: Marks = {model.coef_[0]:.2f} * Hours + {model.intercept_:.2f}")
+    print(f"Equation: Price = {model.coef_[0]:.4f} * Size + {model.intercept_:.2f}")
     
     # Make predictions
-    test_hours = np.array([2.5, 5.5, 8.5]).reshape(-1, 1)
-    predicted_marks = model.predict(test_hours)
+    test_sizes = np.array([900, 1500, 2100]).reshape(-1, 1)
+    predicted_prices = model.predict(test_sizes)
     
     print(f"\nPredictions:")
-    for hours, mark in zip(test_hours.flatten(), predicted_marks):
-        print(f"Hours: {hours} -> Predicted Mark: {mark:.2f}")
+    for size, price in zip(test_sizes.flatten(), predicted_prices):
+        print(f"Size: {size} sq ft -> Predicted Price: ${price:.2f}k")
         
     # Verify with a simple manual calculation
-    print(f"\nManual verification for 5 hours:")
-    manual_calc = model.coef_[0] * 5 + model.intercept_
-    print(f"Manual: {model.coef_[0]:.2f} * 5 + {model.intercept_:.2f} = {manual_calc:.2f}")
-    print(f"Model prediction: {model.predict([[5]])[0]:.2f}")
+    print(f"\nManual verification for 1000 sq ft:")
+    manual_calc = model.coef_[0] * 1000 + model.intercept_
+    print(f"Manual: {model.coef_[0]:.4f} * 1000 + {model.intercept_:.2f} = {manual_calc:.2f}")
+    print(f"Model prediction: {model.predict([[1000]])[0]:.2f}")
     
     return model
 

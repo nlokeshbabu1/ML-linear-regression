@@ -1,44 +1,44 @@
-# Simple Linear Regression Example for Student Marks
+# Simple Linear Regression Example for House Prices
 
 # This demonstrates the mathematical concept behind linear regression
-# where we predict marks based on hours studied
+# where we predict house prices based on size (square footage)
 
 # Sample data points:
-# Hours Studied (x) -> Marks (y)
-# (1, 25), (2, 30), (3, 35), (4, 40), (5, 50), (6, 55), (7, 60), (8, 70), (9, 75), (10, 80)
+# House Size (sq ft) (x) -> Price (thousands $) (y)
+# (800, 120), (1000, 150), (1200, 180), (1400, 210), (1600, 240), (1800, 270), (2000, 300), (2200, 330), (2400, 360), (2600, 390)
 
 # Linear regression finds the best fitting line: y = mx + b
 # where:
-# - m is the slope (change in marks per hour studied)
-# - b is the y-intercept (predicted marks when hours = 0)
+# - m is the slope (change in price per square foot)
+# - b is the y-intercept (predicted price when size = 0 sq ft)
 
 # Using the dataset above, we can calculate:
-# - Slope (m) ≈ 6.36 (marks increase by ~6.36 per additional hour)
-# - Intercept (b) ≈ 17.00 (base marks without studying)
+# - Slope (m) ≈ 0.15 (price increases by ~$0.15k or $150 per additional sq ft)
+# - Intercept (b) ≈ 0.00 (base price for a house with 0 sq ft)
 
 # So the equation becomes:
-# Predicted Marks = 6.36 * Hours Studied + 17.00
+# Predicted Price = 0.15 * House Size + 0.00
 
 # Example predictions:
-# - 0 hours → 17.00 marks
-# - 5 hours → 6.36*5 + 17.00 = 48.8 marks
-# - 10 hours → 6.36*10 + 17.00 = 80.6 marks
+# - 0 sq ft → $0.00k price
+# - 1000 sq ft → 0.15*1000 + 0.00 = $150k
+# - 2000 sq ft → 0.15*2000 + 0.00 = $300k
 
 print("Linear Regression Model Example")
 print("===============================")
 print("y = mx + b")
-print("where m = 6.36 (slope), b = 17.00 (intercept)")
+print("where m = 0.15 (slope), b = 0.00 (intercept)")
 print()
 
-def predict_marks(hours):
-    """Predict marks based on hours studied"""
-    slope = 6.36
-    intercept = 17.00
-    return slope * hours + intercept
+def predict_price(size):
+    """Predict house price based on size in square feet"""
+    slope = 0.15
+    intercept = 0.00
+    return slope * size + intercept
 
 # Test the function
-test_hours = [0, 2.5, 5, 7.5, 10]
-print("Hours Studied -> Predicted Marks")
-for hours in test_hours:
-    marks = predict_marks(hours)
-    print(f"{hours:6.1f} hours -> {marks:6.2f} marks")
+test_sizes = [500, 1000, 1500, 2000, 2500]
+print("House Size (sq ft) -> Predicted Price (thousands $)")
+for size in test_sizes:
+    price = predict_price(size)
+    print(f"{size:6.0f} sq ft -> ${price:6.2f}k")

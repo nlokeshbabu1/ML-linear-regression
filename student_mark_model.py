@@ -7,22 +7,22 @@ import pandas as pd
 
 def generate_sample_data(n_samples=100):
     """
-    Generate sample data for student marks based on hours studied
+    Generate sample data for house prices based on size
     Following a realistic pattern with some noise
     """
-    # Generate random study hours between 1 and 15 hours
-    hours_studied = np.random.uniform(1, 15, n_samples)
+    # Generate random house sizes between 800 and 3000 square feet
+    house_sizes = np.random.uniform(800, 3000, n_samples)
     
-    # Generate marks based on hours with some realistic relationship
-    # More hours generally leads to higher marks, but with variation
-    base_performance = 20 + (hours_studied * 4)  # Base relationship
-    noise = np.random.normal(0, 5, n_samples)    # Add some randomness
-    marks = base_performance + noise
+    # Generate prices based on size with some realistic relationship
+    # Larger houses generally cost more, but with variation
+    base_price = 100 + (house_sizes * 0.12)  # Base relationship ($120 per 1000 sq ft)
+    noise = np.random.normal(0, 10, n_samples)    # Add some randomness
+    prices = base_price + noise
     
-    # Ensure marks are within realistic bounds (0-100)
-    marks = np.clip(marks, 0, 100)
+    # Ensure prices are positive
+    prices = np.clip(prices, 50, 500)  # Prices between $50k and $500k
     
-    return hours_studied.reshape(-1, 1), marks
+    return house_sizes.reshape(-1, 1), prices
 
 def create_and_train_model(X, y):
     """
@@ -42,7 +42,7 @@ def evaluate_model(model, X_test, y_test):
     return y_pred, mse, r2
 
 def main():
-    print("Student Mark Prediction Model")
+    print("House Price Prediction Model")
     print("="*40)
     
     # Generate sample data
@@ -59,7 +59,7 @@ def main():
     # Print model parameters
     print(f"Slope (coefficient): {model.coef_[0]:.2f}")
     print(f"Intercept: {model.intercept_:.2f}")
-    print(f"Equation: Marks = {model.coef_[0]:.2f} * Hours + {model.intercept_:.2f}")
+    print(f"Equation: Price = {model.coef_[0]:.2f} * Size + {model.intercept_:.2f}")
     
     # Evaluate the model
     y_pred, mse, r2 = evaluate_model(model, X_test, y_test)
@@ -69,11 +69,11 @@ def main():
     
     # Test with new data points
     print(f"\nPrediction Examples:")
-    test_hours = np.array([[2], [5], [8], [12], [15]])
-    predicted_marks = model.predict(test_hours)
+    test_sizes = np.array([[1000], [1500], [2000], [2500], [2800]])
+    predicted_prices = model.predict(test_sizes)
     
-    for hours, mark in zip(test_hours.flatten(), predicted_marks):
-        print(f"Hours studied: {hours:.1f} -> Predicted mark: {mark:.1f}")
+    for size, price in zip(test_sizes.flatten(), predicted_prices):
+        print(f"House size: {size:.0f} sq ft -> Predicted price: ${price:.1f}k")
     
     # Visualize the results
     plt.figure(figsize=(12, 5))
@@ -82,8 +82,8 @@ def main():
     plt.subplot(1, 2, 1)
     plt.scatter(X_train, y_train, color='blue', alpha=0.6, label='Training Data')
     plt.plot(X_train, model.predict(X_train), color='red', linewidth=2, label='Regression Line')
-    plt.xlabel('Hours Studied')
-    plt.ylabel('Marks')
+    plt.xlabel('House Size (Sq Ft)')
+    plt.ylabel('Price (Thousands $)')
     plt.title('Training Data and Regression Line')
     plt.legend()
     plt.grid(True, alpha=0.3)
@@ -92,9 +92,9 @@ def main():
     plt.subplot(1, 2, 2)
     plt.scatter(y_test, y_pred, color='green', alpha=0.6)
     plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'red', linewidth=2, label='Perfect Prediction')
-    plt.xlabel('Actual Marks')
-    plt.ylabel('Predicted Marks')
-    plt.title('Actual vs Predicted Marks (Test Set)')
+    plt.xlabel('Actual Price')
+    plt.ylabel('Predicted Price')
+    plt.title('Actual vs Predicted Prices (Test Set)')
     plt.legend()
     plt.grid(True, alpha=0.3)
     
@@ -103,8 +103,8 @@ def main():
     
     # Additional analysis
     print(f"\nModel Interpretation:")
-    print(f"- For every additional hour of study, marks increase by approximately {model.coef_[0]:.2f} points")
-    print(f"- Students with 0 hours of study are predicted to score {model.intercept_:.2f} marks")
+    print(f"- For every additional square foot, price increases by approximately ${model.coef_[0]:.2f}k")
+    print(f"- Base price (for a house with 0 sq ft) is predicted to be ${model.intercept_:.2f}k")
     
     return model
 
