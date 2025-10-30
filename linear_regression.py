@@ -1,5 +1,4 @@
 import numpy as np
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
@@ -49,6 +48,7 @@ print(f"🔮 Predicted Score for {hours} hours studied: {predicted_score:.2f}%\n
 # Plot results
 plt.scatter(X, y, color='blue', label='Actual Data')
 plt.plot(X, model.predict(X), color='red', label='Regression Line')
+plt.scatter(hours, pred, color='green', s=100, label=f'Predicted Point ({hours} hrs, {pred[0]:.1f} marks)')
 plt.xlabel('Hours Studied')
 plt.ylabel('Score (%)')
 plt.title('Linear Regression: Hours vs Score')
